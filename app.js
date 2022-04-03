@@ -14,10 +14,18 @@ app.use(fprs());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.get("/", (req, res, next) => {
+    return Response(res, 200, {
+        message: "App WTE Game",
+        version: process.env.APP_VERSION,
+        app: process.env.APP_NAME
+    })
+});
+
 app.use((req, res, next) => {
     // console.log(req.url);
     return Response(res, 404, `No ressource found on ${req.url}`)
-})
+});
 
 app.listen(PORT, () => {
     try {
