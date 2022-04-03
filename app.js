@@ -16,6 +16,8 @@ app.use(express.json());
 
 app.get("/", (req, res, next) => {
     return Response(res, 200, {
+        time: `${new Date().toLocaleTimeString()}`,
+        date: `${new Date().toLocaleDateString()}`,
         message: "App WTE Game",
         version: process.env.APP_VERSION,
         app: process.env.APP_NAME
