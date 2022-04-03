@@ -3,4 +3,4 @@ const players = express.Router();
 
 // players.get("/player/login",)
 
-exports.module = { players }
+module.exports = { players }

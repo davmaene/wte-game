@@ -3,4 +3,4 @@ const admin = express.Router();
 
 // players.get("/player/login",)
 
-exports.module = { admin }
+module.exports = { admin }

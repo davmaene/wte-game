@@ -1,5 +1,6 @@
 const express = require("express");
-const { Response } = require("./helpers/helper.message.server.js")
+const { Response } = require("./helpers/helper.message.server.js");
+const { routes } = require("./routes/index.js");
 const fprs = require("express-fileupload");
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -23,6 +24,8 @@ app.get("/", (req, res, next) => {
         app: process.env.APP_NAME
     })
 });
+
+app.use("/api", routes)
 
 app.use((req, res, next) => {
     // console.log(req.url);
