@@ -4,6 +4,6 @@ const { players } = require("./players.routes.js");
 const { admin } = require("./admin.routes.js");
 
 routes.use('/players', players )
-routes.use('/admin', admin)
+routes.use('/admin', admin )
 
 exports.module = { routes }
