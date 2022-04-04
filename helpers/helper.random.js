@@ -7,7 +7,7 @@ const generateIdentifier = () => {
     const pfx = Math.floor(Math.random() * 1000);
     const sfx = Math.floor(Math.random() * 100);
     
-    return `OPR-${pfx}-${sfx}`;
+    return `WTE-${pfx}-${sfx}`;
 
 }
 const randomVoucherRecharge = () => {

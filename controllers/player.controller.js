@@ -1,5 +1,6 @@
 const { fillphone } = require('../helpers/helper.fillphonenumber');
 const { Response } = require('../helpers/helper.message.server');
+const { generateIdentifier } = require('../helpers/helper.random');
 const { logger } = require('../helpers/helper.writelogfile');
 const { sendMessage } = require('../helpers/helpers.message');
 const { Cogs } = require('../models/cogs.model');
@@ -65,7 +66,27 @@ const PlayerController = {
                                 })
                             }else{
                                 // this means player not exist
-
+                                await Player.create({
+                                    ref: generateIdentifier(),
+                                    fsname: dic[0].split(" ")[0],
+                                    lsname:  dic[0].split(" ")[1],
+                                    phone: fillphone(from_number),
+                                    province: dic[1],
+                                    ville: dic[2]
+                                })
+                                .then(ply => {
+                                    if(ply instanceof Player){
+                                        sendMessage({
+                                            to: fillphone(from_number),
+                                            content: `Vous avez été ajouter avec succès \nNom: ${ply['fsname']}\nPostnom: ${ply['lsname']}\nPhone: ${ply['phone']}\nProvince: ${ply['province']}\nVille: ${ply['ville']}`
+                                        }, (er, dn) => {
+                                            if(er){
+                                                logger({message: "erreur on sending message", raison: er});
+                                                return Response(res, 200, er);
+                                            }else return Response(res, 200, dn)
+                                        }) 
+                                    }
+                                })
                             }
                         }else{
                             sendMessage({
