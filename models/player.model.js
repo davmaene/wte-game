@@ -35,6 +35,11 @@ const Player = Configs.define('__tbl_players', {
         allowNull: true,
         defaultValue: "RDCongo"
     },
+    status: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 1
+    }
 }, {
     timestamps: false,
     freezeTableName: true
