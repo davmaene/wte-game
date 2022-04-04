@@ -16,6 +16,7 @@ const PlayerController = {
             from_number,
             to_number
         } = req.body;
+
         if(content.length === 0){
             // means the content of the received message is empty and the request can not be executed
             sendMessage({
@@ -28,6 +29,7 @@ const PlayerController = {
                 }else return Response(res, 200, dn)
                 
             })
+            
         }else{
             // means the content of the received message is not empty
             sendMessage({
