@@ -85,6 +85,16 @@ const PlayerController = {
                                                 return Response(res, 200, er);
                                             }else return Response(res, 200, dn)
                                         }) 
+                                    }else{
+                                        sendMessage({
+                                            to: fillphone(from_number),
+                                            content: `Une erreur vient de produire lors de l'inscription !`
+                                        }, (er, dn) => {
+                                            if(er){
+                                                logger({message: "erreur on sending message", raison: er});
+                                                return Response(res, 200, er);
+                                            }else return Response(res, 200, dn)
+                                        }) 
                                     }
                                 })
                             }
