@@ -56,7 +56,7 @@ const PlayerController = {
                                 // this means the player already exist
                                 sendMessage({
                                     to: fillphone(from_number),
-                                    content: `Les message d'inscription doit contenir 3 parties séparées par des virgules \nex: nom prenom, province, ville`
+                                    content: `nous avons detecter que le numero ${fillphone(from_number)} est déjà utiliser par un autre joueur !`
                                 }, (er, dn) => {
                                     if(er){
                                         logger({message: "erreur on sending message", raison: er});
