@@ -64,6 +64,7 @@ const PlayerController = {
                                     }else return Response(res, 200, dn)
                                 })
                             }else{
+                                // this means player not exist
 
                             }
                         }else{
