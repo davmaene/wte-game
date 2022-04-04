@@ -4,6 +4,7 @@ const { logger } = require('../helpers/helper.writelogfile');
 const { sendMessage } = require('../helpers/helpers.message');
 const { Cogs } = require('../models/cogs.model');
 const { Player } = require('../models/player.model.js');
+const { players } = require('../routes/players.routes');
 
 const PlayerController = {
     login: async (req, res, next) => {
@@ -46,7 +47,25 @@ const PlayerController = {
                         // means inscriptions sont en cours
                         const dic = content.split(",")
                         if(dic.length === 3){
+                            const player = await players.findOne({
+                                where: {
+                                    phone: fillphone(from_number)
+                                }
+                            });
+                            if(player instanceof Player){
+                                // this means the player already exist
+                                sendMessage({
+                                    to: fillphone(from_number),
+                                    content: `Les message d'inscription doit contenir 3 parties séparées par des virgules \nex: nom prenom, province, ville`
+                                }, (er, dn) => {
+                                    if(er){
+                                        logger({message: "erreur on sending message", raison: er});
+                                        return Response(res, 200, er);
+                                    }else return Response(res, 200, dn)
+                                })
+                            }else{
 
+                            }
                         }else{
                             sendMessage({
                                 to: fillphone(from_number),
