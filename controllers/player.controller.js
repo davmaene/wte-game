@@ -47,8 +47,21 @@ const PlayerController = {
                         
                         break;
                     case 2:
+                        // means gaming is opened
+
                         break;
-                
+                    case 3:
+                        // means no session opened
+                        sendMessage({
+                            to: fillphone(from_number),
+                            content: `Toutes les sesssion sont fermées sont fermées pour l'instat`
+                        }, (er, dn) => {
+                            if(er){
+                                logger({message: "erreur on sending message", raison: er});
+                                return Response(res, 200, er);
+                            }else return Response(res, 200, dn)
+                        }) 
+                        break;
                     default:
                         sendMessage({
                             to: fillphone(from_number),
