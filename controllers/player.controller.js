@@ -3,6 +3,7 @@ const { Response } = require('../helpers/helper.message.server');
 const { logger } = require('../helpers/helper.writelogfile');
 const { sendMessage } = require('../helpers/helpers.message');
 const { Player } = require('../models/player.model.js');
+
 const PlayerController = {
     login: async (req, res, next) => {
         return Response(res, 200, req.body)
@@ -17,6 +18,7 @@ const PlayerController = {
             to_number
         } = req.body;
 
+        if(!content || !from_number) return Response(res, 401, 'cette requete doit contenir au minimum `content`, `from_number`')
         if(content.length === 0){
             // means the content of the received message is empty and the request can not be executed
             sendMessage({
@@ -27,9 +29,8 @@ const PlayerController = {
                     logger({message: "erreur on sending message", raison: er});
                     return Response(res, 200, er);
                 }else return Response(res, 200, dn)
-                
             })
-            
+
         }else{
             // means the content of the received message is not empty
             sendMessage({
