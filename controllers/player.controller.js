@@ -2,6 +2,7 @@ const { fillphone } = require('../helpers/helper.fillphonenumber');
 const { Response } = require('../helpers/helper.message.server');
 const { logger } = require('../helpers/helper.writelogfile');
 const { sendMessage } = require('../helpers/helpers.message');
+const { Cogs } = require('../models/cogs.model');
 const { Player } = require('../models/player.model.js');
 
 const PlayerController = {
@@ -33,13 +34,45 @@ const PlayerController = {
 
         }else{
             // means the content of the received message is not empty
-            sendMessage({
-                to: '0970284772',
-                content: 'salut kaka maisha ina sema aye kule'
-            }, (er, dn) => {
-                if(er) return Response(res, 200, er);
-                else return Response(res, 200, dn)
-            })
+            const cogs = await Cogs.findOne({
+                where: {
+                    id: 1
+                }
+            });
+
+            if(cogs instanceof Cogs){
+                switch (cogs['session']) {
+                    case 1:
+                        // means inscriptions sont en cours
+                        
+                        break;
+                    case 2:
+                        break;
+                
+                    default:
+                        sendMessage({
+                            to: fillphone(from_number),
+                            content: `Toutes les sesssion sont fermées sont fermées pour l'instat`
+                        }, (er, dn) => {
+                            if(er){
+                                logger({message: "erreur on sending message", raison: er});
+                                return Response(res, 200, er);
+                            }else return Response(res, 200, dn)
+                        }) 
+                        break;
+                }
+            }else{
+
+                sendMessage({
+                    to: fillphone(from_number),
+                    content: `Toutes les sesssion sont fermées sont fermées pour l'instat`
+                }, (er, dn) => {
+                    if(er){
+                        logger({message: "erreur on sending message", raison: er});
+                        return Response(res, 200, er);
+                    }else return Response(res, 200, dn)
+                }) 
+            }
         }
     }
 }

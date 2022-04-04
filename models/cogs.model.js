@@ -3,7 +3,7 @@ const { Configs } = require('../configs/Configs.js');
 
 const Cogs = Configs.define('__tbl_cogs', {
     session: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     startdate: {
