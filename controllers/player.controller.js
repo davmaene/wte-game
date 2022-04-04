@@ -6,6 +6,7 @@ const PlayerController = {
     },
     webhook: async (req, res, next) => { // tous les sms atterissent ici
         const {
+            secret,
             content,
             id,
             idservice,
