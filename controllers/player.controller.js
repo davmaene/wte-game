@@ -44,7 +44,20 @@ const PlayerController = {
                 switch (cogs['session']) {
                     case 1:
                         // means inscriptions sont en cours
-                        
+                        const dic = content.split(",")
+                        if(dic.length === 3){
+
+                        }else{
+                            sendMessage({
+                                to: fillphone(from_number),
+                                content: `Les message d'inscription doit contenir 3 parties séparées par des virgules \nex: nom prenom, province, ville`
+                            }, (er, dn) => {
+                                if(er){
+                                    logger({message: "erreur on sending message", raison: er});
+                                    return Response(res, 200, er);
+                                }else return Response(res, 200, dn)
+                            }) 
+                        }
                         break;
                     case 2:
                         // means gaming is opened
