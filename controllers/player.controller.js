@@ -1,4 +1,6 @@
+const { fillphone } = require('../helpers/helper.fillphonenumber');
 const { Response } = require('../helpers/helper.message.server');
+const { logger } = require('../helpers/helper.writelogfile');
 const { sendMessage } = require('../helpers/helpers.message');
 const { Player } = require('../models/player.model.js');
 const PlayerController = {
@@ -14,6 +16,18 @@ const PlayerController = {
             from_number,
             to_number
         } = req.body;
+        if(content.length === 0){
+            sendMessage({
+                to: fillphone(from_number),
+                content: `nous ne pouvons pas traiter votre requête car le contenu de votre message est vide `
+            }, (er, dn) => {
+                if(er){
+                    logger({message: "erreur on sending message", raison: er});
+                    return Response(res, 200, er);
+                }else return Response(res, 200, dn)
+                
+            })
+        }
         sendMessage({
             to: '0970284772',
             content: 'salut kaka maisha ina sema aye kule'
