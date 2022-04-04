@@ -17,6 +17,7 @@ const PlayerController = {
             to_number
         } = req.body;
         if(content.length === 0){
+            // means the content of the received message is empty and the request can not be executed
             sendMessage({
                 to: fillphone(from_number),
                 content: `nous ne pouvons pas traiter votre requête car le contenu de votre message est vide `
@@ -27,15 +28,16 @@ const PlayerController = {
                 }else return Response(res, 200, dn)
                 
             })
+        }else{
+            // means the content of the received message is not empty
+            sendMessage({
+                to: '0970284772',
+                content: 'salut kaka maisha ina sema aye kule'
+            }, (er, dn) => {
+                if(er) return Response(res, 200, er);
+                else return Response(res, 200, dn)
+            })
         }
-        sendMessage({
-            to: '0970284772',
-            content: 'salut kaka maisha ina sema aye kule'
-        }, (er, dn) => {
-            if(er) return Response(res, 200, er);
-            else return Response(res, 200, dn)
-        })
-        
     }
 }
 module.exports = {
