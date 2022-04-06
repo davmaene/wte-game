@@ -124,7 +124,7 @@ const PlayerController = {
                             break;
                         case 2:
                             // means gaming is opened
-    
+                            
                             break;
                         case 3:
                             // means no session opened
