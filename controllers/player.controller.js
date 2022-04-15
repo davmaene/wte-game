@@ -170,7 +170,7 @@ const PlayerController = {
                     if(er){
                         logger({message: "erreur on sending message", raison: error});
                         return Response(res, 200, error);
-                    }else return Response(res, 200, dn)
+                    }else return Response(res, 200, dn);
                 }) 
             }
         }
