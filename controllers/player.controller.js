@@ -99,6 +99,7 @@ const PlayerController = {
                                         }
                                     })
                                     .catch(err => {
+                                        console.log(err);
                                         sendMessage({
                                             to: fillphone(from_number),
                                             content: `Une erreur vient de produire lors de l'inscription !`

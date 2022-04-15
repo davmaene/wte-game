@@ -18,10 +18,11 @@ const Player = Configs.define('__tbl_players', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    // email: {
-    //     type: Sequelize.STRING,
-    //     allowNull: false
-    // },
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "wte@testingmail.com"
+    },
     province: {
         type: Sequelize.STRING,
         allowNull: false
