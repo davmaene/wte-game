@@ -1,6 +1,7 @@
 const { Response } = require('../helpers/helper.message.server');
 const { fillphone } = require("../helpers/helper.fillphonenumber");
 const { Admin } = require("../models/admin.model");
+const { generatePasswordAndEncryptIt, generateIdentifier } = require('../helpers/helper.random');
 
 const AdminController = {
     signup: async (req, res, next) => {
@@ -12,13 +13,13 @@ const AdminController = {
                 lsname,
                 phone: fillphone(phone),
                 email,
-                ref: "",
+                ref: generateIdentifier(),
                 accesslevel: 1,
-
+                password: await generatePasswordAndEncryptIt()
             })
             .then(adm => {
                 if(adm instanceof Admin){
-
+                    
                 }else Response(res, 400, adm)
             })
             .catch(err => {
