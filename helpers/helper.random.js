@@ -45,8 +45,10 @@ const generatePasswordAndEncryptIt = async (roundsalt) => {
 };
 
 module.exports = {
+
     generatePasswordAndEncryptIt,
     generateIdentifier,
     genFilename,
     randomVerifierAccount
+    
 }
