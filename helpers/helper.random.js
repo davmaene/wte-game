@@ -9,7 +9,6 @@ const generateIdentifier = () => {
     const sfx = `${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}`;
     
     return `WTE-${pfx}-${sfx}`;
-
 };
 
 const randomVerifierAccount = () => {

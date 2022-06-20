@@ -10,7 +10,7 @@ const AdminController = {
 
         if(!fsname || !lsname || !phone || !email) return Response(res, 401, "this request must have body included fsname, lsname, phone, email")
         try {
-            const { plain, encrypted } =  await generatePasswordAndEncryptIt()
+            const { plain, encrypted } = await generatePasswordAndEncryptIt()
             Admin.create({
                 fsname,
                 lsname,
@@ -25,8 +25,8 @@ const AdminController = {
                     sendMessage({
                         to: fillphone(phone),
                         content: `Bonjour ${fsname} - ${lsname} Votre compte admin vient d'être crée avec succès vos identifiants sont 
-    Username ${fillphone(phone)}
-    Password ${plain}`
+    Username: ${fillphone(phone)}
+    Password: ${plain}`
                     }, (err, don) => {
                         if(don) console.log(don);
                         else console.log(err);
