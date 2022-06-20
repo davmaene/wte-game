@@ -34,7 +34,7 @@ const genFilename = async (length = new Number()) => {
 
 const generatePasswordAndEncryptIt = async (roundsalt) => {
 
-    const sfx = `${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}`;
+    const sfx = randomVerifierAccount()
     const salt = await bcrypt.genSalt(roundsalt ? roundsalt : 10);
     const hashed = await bcrypt.hash(sfx, salt);
 

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const { Configs } = require('../configs/Configs.js');
 
-const Admin = Configs.define('__tbl_players', {
+const Admin = Configs.define('__tbl_admins', {
     ref: {
         type: Sequelize.STRING,
         allowNull: false

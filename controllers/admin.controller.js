@@ -2,12 +2,15 @@ const { Response } = require('../helpers/helper.message.server');
 const { fillphone } = require("../helpers/helper.fillphonenumber");
 const { Admin } = require("../models/admin.model");
 const { generatePasswordAndEncryptIt, generateIdentifier } = require('../helpers/helper.random');
+const { sendMessage } = require('../helpers/helpers.message');
 
 const AdminController = {
     signup: async (req, res, next) => {
-        const { fsname, lsname, phone, email, password } = req.body;
-        if(!fsname || !lsname || !phone || !email || !password) return Response(res, 401, "this request must have body included fsname, lsname, phone, email")
+        const { fsname, lsname, phone, email } = req.body;
+
+        if(!fsname || !lsname || !phone || !email) return Response(res, 401, "this request must have body included fsname, lsname, phone, email")
         try {
+            const { plain, encrypted } =  await generatePasswordAndEncryptIt()
             Admin.create({
                 fsname,
                 lsname,
@@ -15,11 +18,20 @@ const AdminController = {
                 email,
                 ref: generateIdentifier(),
                 accesslevel: 1,
-                password: await generatePasswordAndEncryptIt()
+                password: encrypted
             })
             .then(adm => {
                 if(adm instanceof Admin){
-                    
+                    sendMessage({
+                        to: fillphone(phone),
+                        content: `Bonjour ${fsname} - ${lsname} Votre compte admin vient d'être crée avec succès vos identifiants sont 
+    Username ${fillphone(phone)}
+    Password ${plain}`
+                    }, (err, don) => {
+                        if(don) console.log(don);
+                        else console.log(err);
+                    })
+                    return Response(res, 200, adm)
                 }else Response(res, 400, adm)
             })
             .catch(err => {

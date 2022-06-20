@@ -4,6 +4,6 @@ const { admin } = require("./admin.routes.js");
 const routes = express.Router();
 
 routes.use('/webhook/player', players )
-routes.use('/admin', admin )
+routes.use('/admins', admin )
 
 module.exports = { routes }
