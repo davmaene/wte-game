@@ -29,6 +29,11 @@ const Admin = Configs.define('__tbl_players', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    status: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1
     }
 }, {
     timestamps: false,
