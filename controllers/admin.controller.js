@@ -3,7 +3,7 @@ const { fillphone } = require("../helpers/helper.fillphonenumber");
 const { Admin } = require("../models/admin.model");
 const { generatePasswordAndEncryptIt, generateIdentifier } = require('../helpers/helper.random');
 const { sendMessage } = require('../helpers/helpers.message');
-const { comparePWD } = require('../helpers/helper.crypthash');
+const { comparePWD, hashPWD } = require('../helpers/helper.crypthash');
 const { sendMail } = require('../helpers/helper.sendmail');
 const dotenv = require('dotenv');
 const { Player } = require('../models/player.model');
@@ -203,11 +203,11 @@ const AdminController = {
     // suppression compte admin
     deletadmin: async (req, res, next) => {
         const { admin } = req.params;
-        if(!admin || isNaN(parseInt(admin))) return Response(res, 401, "Parameter `player` must be integer !")
+        if(!admin || isNaN(parseInt(admin))) return Response(res, 401, "Parameter `admin` must be integer !")
         try {
             await Admin.findOne({
                 where: {
-                    id: parseInt(player)
+                    id: parseInt(admin)
                 }
             })
             .then(pl => {
@@ -221,6 +221,46 @@ const AdminController = {
                         })
                         .catch(err => {
                             return Response(res, 400, err)
+                        })
+                    }else Response(res, 400, `The record with ID ${admin} has already deleted !` )
+                }else return Response(res, 404, `The record with ID ${admin} not found !`)
+            })
+        } catch (error) {
+            return Response(res, 500, error)
+        }
+    },
+    // edit password compte admin
+    changeadminpassword: async (req, res, next) => {
+        const { admin } = req.params;
+        const { oldpassword, newpassword } = req.body;
+        if(!admin || isNaN(parseInt(admin))) return Response(res, 401, "Parameter `admin` must be integer !");
+        if(!oldpassword || !newpassword) return Response(res, 401, "this request must have at least `oldpassword` and `newpassord` parameters !")
+
+        try {
+            const password = await hashPWD({plaintext: newpassword, roundsalt: 128});
+            await Admin.findOne({
+                where: {
+                    id: parseInt(admin)
+                }
+            })
+            .then(pl => {
+                if(pl instanceof Admin){
+                    if(pl.status === 1){
+                        comparePWD({
+                            oldplaintext: oldpassword,
+                            hashedtext: pl['password']
+                        }, (notmatch, matched) => {
+                            if(matched){
+                                pl.update({
+                                    password
+                                })
+                                .then(U => {
+                                    return Response(res, 200, { message: "Item deleted successfuly !", item : pl })
+                                })
+                                .catch(err => {
+                                    return Response(res, 400, err)
+                                })
+                            }else return Response(res, 203, "The old password is incorrecte !")
                         })
                     }else Response(res, 400, `The record with ID ${admin} has already deleted !` )
                 }else return Response(res, 404, `The record with ID ${admin} not found !`)

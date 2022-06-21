@@ -10,6 +10,7 @@ admin.delete("/delete/pl/:player", AdminController.deleteplayer)
 
 admin.put("/edit/ad/:admin", AdminController.editadmin)
 admin.delete("/delete/ad/:admin", AdminController.deletadmin)
+admin.put("/edit/password/ad/:admin", AdminController.deletadmin)
 
 
 module.exports = { admin }

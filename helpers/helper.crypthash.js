@@ -4,11 +4,11 @@ const { randomVerifierAccount } = require('./helper.random');
 
 dotenv.config()
 
-const hashPWD = async (oldplaintext, cb) => {
+const hashPWD = async ({ plaintext, roundsalt }, cb) => {
 
     const sfx = randomVerifierAccount()
     const salt = await bcrypt.genSalt(roundsalt ? roundsalt : 10);
-    const hashed = await bcrypt.hash(sfx, salt);
+    const hashed = await bcrypt.hash(plaintext, salt);
     return hashed;
 
 }
