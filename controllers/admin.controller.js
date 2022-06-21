@@ -42,7 +42,31 @@ const AdminController = {
         }
     },
     login: async (req, res, next) => {
+        const { email, password } = req.body;
+        if(!email || !password) return Response(res, 401, "This request must have username and password !");
 
+        try {
+            if(/^([a-z0-9._-]+)@([a-z0-9._-]+)\.([a-z]{2,6})$/.test(email)){
+                await Admin.findOne({
+                    where: {
+                        email,
+                        status: 1
+                    }
+                })
+                .then(adm => {
+                    if(adm instanceof Admin){
+                        
+                    }else{
+                        return Response(res, 203, "Email or Password incorect !" )
+                    }
+                })
+                .catch(err => {
+                    return Response(res, 500, err)
+                })
+            }else return Response(res, 400, 'The email adress is not respect the structure of an email adress');
+        } catch (error) {
+            return Response(res, 500, error)
+        }
     },
     editplayer: async (req, res, next) => {
 

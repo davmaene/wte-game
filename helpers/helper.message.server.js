@@ -22,7 +22,7 @@ const Response = (res, status, body) => {
             case 203:
             res.status(203).json({
                 status: 203,
-                message: "Login failed `password` or `numero is compteur` is incorrect !",
+                message: "Login failed `password` or `identifier` is incorrect !",
                 data: body ? body : {}
             });
             break;
