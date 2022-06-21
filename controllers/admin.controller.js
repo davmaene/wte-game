@@ -164,8 +164,10 @@ const AdminController = {
     editadmin: async (req, res, next) => {
         const { admin } = req.params;
         const { fsname, lsname, phone, email, accesslevel } = req.body;
-        if(!admin || isNaN(parseInt(admin))) return Response(res, 401, "Parameter `admin` must be integer !")
-        if(Object.keys(req.body).length === 0) return Response(res, 401, "Params in body leaks !")
+
+        if(!admin || isNaN(parseInt(admin))) return Response(res, 401, "Parameter `admin` must be integer !");
+        if(Object.keys(req.body).length === 0) return Response(res, 401, "Params in body leaks !");
+
         try {
             await Admin.findOne({
                 where: {
@@ -231,13 +233,15 @@ const AdminController = {
     },
     // edit password compte admin
     changeadminpassword: async (req, res, next) => {
+
         const { admin } = req.params;
         const { oldpassword, newpassword } = req.body;
+
         if(!admin || isNaN(parseInt(admin))) return Response(res, 401, "Parameter `admin` must be integer !");
-        if(!oldpassword || !newpassword) return Response(res, 401, "this request must have at least `oldpassword` and `newpassord` parameters !")
+        if(!oldpassword || !newpassword) return Response(res, 401, "this request must have at least `oldpassword` and `newpassord` parameters !");
 
         try {
-            const password = await hashPWD({plaintext: newpassword, roundsalt: 128});
+            const password = await hashPWD({ plaintext: newpassword, roundsalt: 10 });
             await Admin.findOne({
                 where: {
                     id: parseInt(admin)
@@ -255,7 +259,7 @@ const AdminController = {
                                     password
                                 })
                                 .then(U => {
-                                    return Response(res, 200, { message: "Item deleted successfuly !", item : pl })
+                                    return Response(res, 200, pl)
                                 })
                                 .catch(err => {
                                     return Response(res, 400, err)
@@ -264,6 +268,9 @@ const AdminController = {
                         })
                     }else Response(res, 400, `The record with ID ${admin} has already deleted !` )
                 }else return Response(res, 404, `The record with ID ${admin} not found !`)
+            })
+            .catch(err => {
+                return Response(res, 500, err)
             })
         } catch (error) {
             return Response(res, 500, error)

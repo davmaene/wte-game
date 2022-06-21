@@ -6,18 +6,27 @@ dotenv.config()
 
 const hashPWD = async ({ plaintext, roundsalt }, cb) => {
 
-    const sfx = randomVerifierAccount()
-    const salt = await bcrypt.genSalt(roundsalt ? roundsalt : 10);
-    const hashed = await bcrypt.hash(plaintext, salt);
-    return hashed;
+    try {
+        const sfx = randomVerifierAccount()
+        const salt = await bcrypt.genSalt(roundsalt ? roundsalt : 10);
+        const hashed = await bcrypt.hash(plaintext, salt);
+        return hashed;
+    } catch (error) {
+       console.log("Error on hash password fnk => ", error);
+       return null;
+    }
 
 }
 
 const comparePWD = async ({ oldplaintext, hashedtext }, cb) => {
-
-    const valide = await bcrypt.compare(oldplaintext, hashedtext)
-    if(valide) cb(undefined, valide)
-    else cb('error pwds not matching', undefined)
+    try {
+        bcrypt.compare(oldplaintext, hashedtext, (err, same) => {
+            if(same) cb(undefined, same)
+            else cb(err, undefined)
+        })
+    } catch (error) {
+        cb(error, undefined)
+    }
 
 }
 
