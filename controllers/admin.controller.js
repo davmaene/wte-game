@@ -55,7 +55,7 @@ const AdminController = {
                 })
                 .then(adm => {
                     if(adm instanceof Admin){
-                        
+
                     }else{
                         return Response(res, 203, "Email or Password incorect !" )
                     }
@@ -63,7 +63,7 @@ const AdminController = {
                 .catch(err => {
                     return Response(res, 500, err)
                 })
-            }else return Response(res, 400, 'The email adress is not respect the structure of an email adress');
+            } else return Response(res, 400, 'The email adress is not respect the structure of an email adress');
         } catch (error) {
             return Response(res, 500, error)
         }
